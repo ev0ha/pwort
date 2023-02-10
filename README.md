@@ -34,8 +34,8 @@ make some more in the future (the update command is not completely finished), so
     <br>
     By only passing an user, checks if the user exists. If you pass an app, will ask for the master password<br>
     of the specified user and display the app password afterwards.<br>
-    Examples:<br>
     <br>
+    Examples:<br>
     show -u Foo<br>
     show -u Foo -a Bar<br>
     sh -u Foo
@@ -45,8 +45,8 @@ make some more in the future (the update command is not completely finished), so
     **update** -u *USERNAME* -a *APP* [-unsafe]<br>
     Short command: **up**<br>
     <br>
-    If you want to update an user, only specify the user. For both, user and app, you will be asked whether you want<br>
-    to change the name and/or the password. Pass **unsafe** flag if you don't want safety restrictions.<br>
+    If you want to update an user, only specify the user. For both, user and app, you will be asked whether you<br>
+    want to change the name and/or the password. Pass **unsafe** flag if you don't want safety restrictions.<br>
     <br>
     Examples:<br>
     update -u Foo<br>
