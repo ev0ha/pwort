@@ -15,11 +15,13 @@ make some more in the future (the update command is not completely finished), so
 
     **create** -u *USERNAME* -a *APP* [-unsafe]<br>
     Short command: **cr**<br>
+    <br>
     Create a new user with a new master password by only passing an username without specifying an app.<br>
     Users must be unique and a new one will not be created if you specify the same username.<br>
     By default the password must be at least 12 characters long, have lower- and uppercase letters and<br>
     at least one numeric and special character, respectively. Additionally pass the **unsafe** flag if<br>
     you don't want these restrictions. Create a new app by additionally passing an app, same **unsafe** rule applies.<br>
+    <br>
     Examples:<br>
     create -u Foo<br>
     create -u Foo -a Bar<br>
@@ -29,9 +31,11 @@ make some more in the future (the update command is not completely finished), so
 
     **show** -u *USERNAME* -a *APP*<br>
     Short command: **sh**<br>
+    <br>
     By only passing an user, checks if the user exists. If you pass an app, will ask for the master password<br>
     of the specified user and display the app password afterwards.<br>
     Examples:<br>
+    <br>
     show -u Foo<br>
     show -u Foo -a Bar<br>
     sh -u Foo
@@ -40,8 +44,10 @@ make some more in the future (the update command is not completely finished), so
 
     **update** -u *USERNAME* -a *APP* [-unsafe]<br>
     Short command: **up**<br>
+    <br>
     If you want to update an user, only specify the user. For both, user and app, you will be asked whether you want<br>
     to change the name and/or the password. Pass **unsafe** flag if you don't want safety restrictions.<br>
+    <br>
     Examples:<br>
     update -u Foo<br>
     update -u Foo -a Bar<br>
@@ -51,7 +57,9 @@ make some more in the future (the update command is not completely finished), so
 
     **delete** -u *USERNAME* -a *APP*
     Short command: **dl**<br>
+    <br>
     Deletes either an user (and all their apps!) or just a specific app.<br>
+    <br>
     Examples:<br>
     delete -u Foo<br>
     delete -u Foo -a Bar<br>
