@@ -133,19 +133,15 @@ func createUser(User *string, Pwd *string) {
 		}
 		defer db.Close()
 
-		stmt, err := db.Prepare("INSERT OR IGNORE INTO users (name, pw) VALUES (?, ?)")
-		if err != nil {
-			db.Close()
-			log.Fatal("Could not insert data into database.")
-		}
-		defer stmt.Close()
-
 		hashedPwd, err := encryption.HashPwd(Pwd)
 		if err != nil {
 			log.Fatal("Could not create hash")
 		}
 
-		stmt.Exec(*User, hashedPwd)
+		_, err = db.Exec("INSERT OR IGNORE INTO users (name, pw) VALUES (?, ?)", *User, hashedPwd)
+		if err != nil {
+			log.Fatal("Could not insert data into database.")
+		}
 
 		fmt.Printf("Created new user %s with password %s\n", *User, *Pwd)
 	} else {
@@ -160,18 +156,15 @@ func createUnsafeUser(User *string, Pwd *string) {
 	}
 	defer db.Close()
 
-	stmt, err := db.Prepare("INSERT OR IGNORE INTO users (name, pw) VALUES (?, ?)")
-	if err != nil {
-		log.Fatal("Could not insert data into database.")
-	}
-	defer stmt.Close()
-
 	hashedPwd, err := encryption.HashPwd(Pwd)
 	if err != nil {
 		log.Fatal("Could not create hash")
 	}
 
-	stmt.Exec(*User, hashedPwd)
+	_, err = db.Exec("INSERT OR IGNORE INTO users (name, pw) VALUES (?, ?)", *User, hashedPwd)
+	if err != nil {
+		log.Fatal("Could not insert data into database.")
+	}
 
 	fmt.Printf("Created new user %s with unsafe password %s\n", *User, *Pwd)
 }
@@ -192,13 +185,10 @@ func createApp(User *string, App *string, Pwd *string) {
 		}
 		defer db.Close()
 
-		stmt, err := db.Prepare("INSERT INTO apps (name, pw, user) VALUES (?, ?, ?)")
+		_, err = db.Exec("INSERT INTO apps (name, pw, user) VALUES (?, ?, ?)", *App, *Pwd, *User)
 		if err != nil {
 			log.Fatal("Could not insert data into database.")
 		}
-		defer stmt.Close()
-
-		stmt.Exec(*App, *Pwd, *User)
 
 		fmt.Printf("Created new app %s for user %s with password %s\n", *App, *User, *Pwd)
 	} else {
@@ -213,13 +203,10 @@ func createUnsafeApp(User *string, App *string, Pwd *string) {
 	}
 	defer db.Close()
 
-	stmt, err := db.Prepare("INSERT INTO apps (name, pw, user) VALUES (?, ?, ?)")
+	_, err = db.Exec("INSERT INTO apps (name, pw, user) VALUES (?, ?, ?)", *App, *Pwd, *User)
 	if err != nil {
 		log.Fatal("Could not insert data into database.")
 	}
-	defer stmt.Close()
-
-	stmt.Exec(*App, *Pwd, *User)
 
 	fmt.Printf("Created new app %s for user %s with unsafe password %s\n", *App, *User, *Pwd)
 }

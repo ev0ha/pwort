@@ -133,13 +133,10 @@ func updateUser(User *string) {
 				}
 				defer db.Close()
 
-				stmt, err := db.Prepare("UPDATE users SET name = ?, pw = ? WHERE name = ?")
+				_, err = db.Exec("UPDATE users SET name = ?, pw = ? WHERE name = ?", newName, newPassword, User)
 				if err != nil {
 					log.Fatal("Error updating.")
 				}
-				defer stmt.Close()
-
-				stmt.Exec(newName, newPassword, User)
 
 				fmt.Printf("Updated user %s with new name %s and new password %s.\n", *User, newName, newPassword)
 			} else {
@@ -150,13 +147,10 @@ func updateUser(User *string) {
 				}
 				defer db.Close()
 
-				stmt, err := db.Prepare("UPDATE users SET pw = ? WHERE name = ?")
+				_, err = db.Exec("UPDATE users SET pw = ? WHERE name = ?", newPassword, User)
 				if err != nil {
 					log.Fatal("Error updating.")
 				}
-				defer stmt.Close()
-
-				stmt.Exec(newPassword, User)
 
 				fmt.Printf("Updated user %s with new password %s.\n", *User, newPassword)
 			}
@@ -172,13 +166,10 @@ func updateUser(User *string) {
 			}
 			defer db.Close()
 
-			stmt, err := db.Prepare("UPDATE users SET name = ? WHERE name = ?")
+			_, err = db.Exec("UPDATE users SET name = ? WHERE name = ?", newName, User)
 			if err != nil {
 				log.Fatal("Error updating.")
 			}
-			defer stmt.Close()
-
-			stmt.Exec(newName, User)
 
 			fmt.Printf("Updated user %s with new name %s.\n", *User, newName)
 		} else {
@@ -207,18 +198,14 @@ func updateUnsafeUser(User *string) {
 			}
 			defer db.Close()
 
-			stmt, err := db.Prepare("UPDATE users SET name = ?, pw = ? WHERE name = ?")
-			if err != nil {
-				log.Fatal("Error updating.")
-			}
-			defer stmt.Close()
-
 			hashedPwd, err := encryption.HashPwd(&newPassword)
 			if err != nil {
 				log.Fatal("Could not create hash.")
 			}
-
-			stmt.Exec(newName, hashedPwd, *User)
+			_, err = db.Exec("UPDATE users SET name = ?, pw = ? WHERE name = ?", hashedPwd, *User)
+			if err != nil {
+				log.Fatal("Could not create hash.")
+			}
 
 			fmt.Printf("Updated user %s with new name %s and new password %s.\n", *User, newName, newPassword)
 		} else {
@@ -247,13 +234,10 @@ func updateUnsafeUser(User *string) {
 			}
 			defer db.Close()
 
-			stmt, err := db.Prepare("UPDATE users SET name = ? WHERE name = ?")
+			_, err = db.Exec("UPDATE users SET name = ? WHERE name = ?", newName, *User)
 			if err != nil {
 				log.Fatal("Error updating.")
 			}
-			defer stmt.Close()
-
-			stmt.Exec(newName, *User)
 
 			fmt.Printf("Updated user %s with new name %s.\n", *User, newName)
 		} else {
@@ -283,13 +267,10 @@ func updateApp(User *string, App *string) {
 				}
 				defer db.Close()
 
-				stmt, err := db.Prepare("UPDATE apps SET name = ?, pw = ? WHERE name = ? AND user = ?")
+				_, err = db.Exec("UPDATE apps SET name = ?, pw = ? WHERE name = ? AND user = ?", newName, newPassword, *App, *User)
 				if err != nil {
 					log.Fatal("Error updating.")
 				}
-				defer stmt.Close()
-
-				stmt.Exec(newName, newPassword, *App, *User)
 
 				fmt.Printf("Updated app %s with new name %s and new password %s.\n", *App, newName, newPassword)
 			} else {
@@ -300,13 +281,10 @@ func updateApp(User *string, App *string) {
 				}
 				defer db.Close()
 
-				stmt, err := db.Prepare("UPDATE apps SET pw = ? WHERE name = ? AND user = ?")
+				_, err = db.Exec("UPDATE apps SET pw = ? WHERE name = ? AND user = ?", newPassword, *App, *User)
 				if err != nil {
 					log.Fatal("Error updating.")
 				}
-				defer stmt.Close()
-
-				stmt.Exec(newPassword, *App, *User)
 
 				fmt.Printf("Updated app %s with new password %s.\n", *App, newPassword)
 			}
@@ -322,13 +300,10 @@ func updateApp(User *string, App *string) {
 			}
 			defer db.Close()
 
-			stmt, err := db.Prepare("UPDATE apps SET name = ? WHERE name = ? AND user = ?")
+			_, err = db.Exec("UPDATE apps SET name = ? WHERE name = ? AND user = ?", newName, *App, *User)
 			if err != nil {
 				log.Fatal("Error updating.")
 			}
-			defer stmt.Close()
-
-			stmt.Exec(newName, *App, *User)
 
 			fmt.Printf("Updated app %s with new name %s.\n", *App, newName)
 		} else {
@@ -357,13 +332,10 @@ func updateUnsafeApp(User *string, App *string) {
 			}
 			defer db.Close()
 
-			stmt, err := db.Prepare("UPDATE apps SET name = ?, pw = ? WHERE name = ? AND user = ?")
+			_, err = db.Exec("UPDATE apps SET name = ?, pw = ? WHERE name = ? AND user = ?", newName, newPassword, *App, *User)
 			if err != nil {
 				log.Fatal("Error updating.")
 			}
-			defer stmt.Close()
-
-			stmt.Exec(newName, newPassword, *App, *User)
 
 			fmt.Printf("Updated app %s with new name %s and new password %s.\n", *App, newName, newPassword)
 		} else {
@@ -374,13 +346,10 @@ func updateUnsafeApp(User *string, App *string) {
 			}
 			defer db.Close()
 
-			stmt, err := db.Prepare("UPDATE apps SET pw = ? WHERE name = ? AND user = ?")
+			_, err = db.Exec("UPDATE apps SET pw = ? WHERE name = ? AND user = ?", newPassword, *App, *User)
 			if err != nil {
 				log.Fatal("Error updating.")
 			}
-			defer stmt.Close()
-
-			stmt.Exec(newPassword, *App, *User)
 
 			fmt.Printf("Updated app %s with new password %s.\n", *App, newPassword)
 		}
@@ -393,13 +362,10 @@ func updateUnsafeApp(User *string, App *string) {
 			}
 			defer db.Close()
 
-			stmt, err := db.Prepare("UPDATE apps SET name = ? WHERE name = ? AND user = ?")
+			_, err = db.Exec("UPDATE apps SET name = ? WHERE name = ? AND user = ?", newName, *App, *User)
 			if err != nil {
 				log.Fatal("Error updating.")
 			}
-			defer stmt.Close()
-
-			stmt.Exec(newName, *App, *User)
 
 			fmt.Printf("Updated app %s with new name %s.\n", *App, newName)
 		} else {

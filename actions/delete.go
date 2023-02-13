@@ -60,27 +60,21 @@ func deleteUser(User *string) {
 		log.Fatal("Wrong master password.")
 	}
 
-	// TODO: delete user
 	db, err := sql.Open("sqlite3", "./passwords.db")
 	if err != nil {
 		log.Fatal("Could not connect to database")
 	}
 	defer db.Close()
 
-	stmt, err := db.Prepare("DELETE FROM users WHERE name = ?")
+	_, err = db.Exec("DELETE FROM users WHERE name = ?", *User)
 	if err != nil {
 		log.Fatal("Error deleting user.")
 	}
-	defer stmt.Close()
 
-	stmt.Exec(*User)
-
-	stmt, err = db.Prepare("DELETE FROM apps WHERE user = ?")
+	_, err = db.Exec("DELETE FROM apps WHERE user = ?", *User)
 	if err != nil {
 		log.Fatal("Error deleting apps of specified user.")
 	}
-
-	stmt.Exec(*User)
 
 	fmt.Printf("Deleted user %s and all their apps.\n", *User)
 }
@@ -103,13 +97,10 @@ func deleteApp(User *string, App *string) {
 	}
 	defer db.Close()
 
-	stmt, err := db.Prepare("DELETE FROM apps WHERE name = ? AND user = ?")
+	_, err = db.Exec("DELETE FROM apps WHERE name = ? AND user = ?", *App, *User)
 	if err != nil {
 		log.Fatal("Error deleting app for specified user.")
 	}
-	defer stmt.Close()
-
-	stmt.Exec(*App, *User)
 
 	fmt.Printf("Deleted app %s for user %s\n", *App, *User)
 }

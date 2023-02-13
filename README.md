@@ -7,7 +7,7 @@ update and delete them. See below for detailed usage.
 This is for my own educational purposes, so it goes without saying: Not intended for serious use!<br>
 I coded this within a week while learning some Go and SQLite: There are no tests, style inconsistencies,<br>
 possibly bugs. The master password is encrypted using bcrypt. I recently made some changes and plan to<br>
-make some more in the future (the update command is not completely finished), so I decided to put the code on Github.
+make some more in the future, so I decided to put the code on Github.
 
 # Usage
 
